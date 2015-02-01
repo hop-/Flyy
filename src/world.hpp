@@ -8,33 +8,25 @@
 namespace Flyy
 {
 
-        // usint PositionUnit = long long int;
-        // usint VectorUnit = int;
+        // using PositionUnit = long long int;
+        // using VectorUnit = int;
         typedef long long int PositionUnit;
         typedef int VectorUnit;
 
-        enum Direction
+        struct Rectangle
         {
-                Left,
-                Right,
-                Up,
-                Down
-        };
+                PositionUnit x;
+                PositionUnit y;
+                PositionUnit w;
+                PositionUnit h;
 
-        enum Side
-        {
-                Top,
-                Bottom,
-                LeftSide,
-                RightSide
         };
 
         struct Position
         {
                 PositionUnit x;
                 PositionUnit y;
-                Position(int px, int py);
-                Position(){};
+                Position(int px = 0, int py = 0);
                 Position& operator=(const Position& p);
         };
 
@@ -61,18 +53,16 @@ namespace Flyy
         Vector operator*(Vector a, float b);
         Vector operator*(float a, Vector b);
 
-        class Rectangle
+        class PhysicalObject :
+                protected Rectangle
         {
-                Position m_position;
-                int m_height;
-                int m_width;
         public:
-                Rectangle(){};
-                Rectangle(int w, int h);
-                Rectangle(int w, int h, Position p);
+                PhysicalObject(){};
+                PhysicalObject(int w, int h);
+                PhysicalObject(int w, int h, Position p);
                 void setPosition(Position newPosition);
-                void updatePosition(Vector v, unsigned t);
-                Position getPosition() {return m_position;};
+                void updatePosition(Vector v, double t);
+                Position getPosition();
                 PositionUnit left() const;
                 PositionUnit right() const;
                 PositionUnit top() const;
@@ -83,15 +73,17 @@ namespace Flyy
                 public Object
         {
         protected:
-                Rectangle m_rect;
+                PhysicalObject m_rect;
                 float m_coefficientOfElasticity;
         public:
-                Rectangle getRect() const;
+                PhysicalObject getRect() const;
                 PositionUnit left() const;
                 PositionUnit right() const;
                 PositionUnit top() const;
                 PositionUnit bottom() const;
                 float getCoefficientOfElasticity() const;
+        protected:
+
         };
 
         class Wall :
@@ -99,7 +91,7 @@ namespace Flyy
         {
         public:
                 Wall(){};
-                Wall(float cOfElasticity, Rectangle r);
+                Wall(float cOfElasticity, PhysicalObject r);
         };
 
         class MovableObject :
@@ -111,49 +103,45 @@ namespace Flyy
         public:
                 MovableObject(){};
                 MovableObject(unsigned mass, float cOfResistance,
-                              float cOfElasticity, Rectangle r);
+                              float cOfElasticity, PhysicalObject r);
                 unsigned getMass() const;
                 void addV(Vector v);
                 Vector getV() const;
                 void setV(Vector v);
                 float getCoefficientOfResistance() const;
-                void updatePosition(unsigned dt);
+                void updatePosition(double dt);
                 void backPosition(VectorUnit deltaMagnitude);
         };
 
         class World
         {
-                MovableObject m_player;
-                Wall m_finish;
                 std::vector<Wall> m_walls;
-                std::vector<MovableObject> m_bots;
+                std::vector<MovableObject> m_movables;
 
                 unsigned m_dbTimeUnitToMsec;
                 unsigned m_ticks;
                 unsigned m_deltaTick;
-                unsigned m_motion;
+                float m_coefficientOfTimeWarp;
 
                 Vector m_g;
                 float m_coefficientOfResistanceOfEnvironment;
                 bool m_hasBeenChanged;
         public:
-                World();
-                World(float cOfEnvResistance,
-                      unsigned dbTimeUnitToMsec,
-                      float gi);
+                World(float cOfEnvResistance = 1,
+                      unsigned dbTimeUnitToMsec = 1,
+                      float gi = 50);
                 void start(unsigned ticks);
-                void setPlayer(MovableObject player);
                 void setWalls(std::vector<Wall> walls);
                 void setMovables(std::vector<MovableObject> movables);
                 void add(Wall wall);
                 void add(MovableObject movable);
-                MovableObject getPlayer() const;
                 const std::vector<Wall>& getWalls() const;
                 const std::vector<MovableObject>& getMovables() const;
                 bool hasBeenChanged();
                 void changesHasBeenSeen();
                 void update(unsigned ticks);
-                void playerControl(Direction d);
+                void setCoefficientOfTimeWarp(short cOfTimeWarp);
+                short getCoefficientOfTimeWarp();
         private:
                 void updatePosition(MovableObject& object);
                 short calculateTime(unsigned deltaTicks);
@@ -165,8 +153,6 @@ namespace Flyy
                 void calculateCollisionEffects(MovableObject& o1,
                                                MovableObject& o2);
                 void calculateCollisionEffects(MovableObject& o, Wall& w);
-                bool getCollisionSide(const MovableObject& o,
-                                      const Wall& w);
         };
 }
 

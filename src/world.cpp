@@ -104,51 +104,58 @@ inline Vector Flyy::operator*(float a, Vector b)
 
 ////////////////////////////////////////////////////////////////
 
-Rectangle::Rectangle(int w, int h) :
-        m_height(h * M_PER_DBU),
-        m_width(w * M_PER_DBU)
-{}
-
-Rectangle::Rectangle(int w, int h, Position p) :
-        m_position(p),
-        m_height(h * M_PER_DBU),
-        m_width(w * M_PER_DBU)
-{}
-
-inline void Rectangle::setPosition(Position newPosition)
+PhysicalObject::PhysicalObject(int width, int height,
+                               Position p = Position())
 {
-        m_position = newPosition;
+        x = p.x;
+        y = p.y;
+        h = height * M_PER_DBU;
+        w = width * M_PER_DBU;
 }
 
-inline PositionUnit Rectangle::left() const
+inline void PhysicalObject::setPosition(Position newPosition)
 {
-       return m_position.x; 
+        x = newPosition.x;
+        y = newPosition.y;
 }
 
-inline PositionUnit Rectangle::right() const
+inline PositionUnit PhysicalObject::left() const
 {
-        return m_position.x + m_width;
+       return x; 
 }
 
-inline PositionUnit Rectangle::top() const
+inline PositionUnit PhysicalObject::right() const
 {
-        return m_position.y + m_height;
+        return x + w;
 }
 
-inline PositionUnit Rectangle::bottom() const
+inline PositionUnit PhysicalObject::top() const
 {
-        return m_position.y;
+        return y + h;
 }
 
-void Rectangle::updatePosition(Vector v, unsigned t)
+inline PositionUnit PhysicalObject::bottom() const
 {
-        m_position.x += v.getX() * static_cast<VectorUnit>(t);
-        m_position.y += v.getY() * static_cast<VectorUnit>(t);
+        return y;
+}
+
+Position PhysicalObject::getPosition()
+{
+        Position p;
+        p.x = x;
+        p.y = y;
+        return p;
+};
+
+void PhysicalObject::updatePosition(Vector v, double t)
+{
+        x += v.getX() * t;
+        y += v.getY() * t;
 }
 
 ////////////////////////////////////////////////////////////////
 
-Rectangle ObjectInWorld::getRect() const
+PhysicalObject ObjectInWorld::getRect() const
 {
         return m_rect;
 }
@@ -180,7 +187,7 @@ inline float ObjectInWorld::getCoefficientOfElasticity() const
 
 ////////////////////////////////////////////////////////////////
 
-Wall::Wall(float cOfElasticity, Rectangle r)
+Wall::Wall(float cOfElasticity, PhysicalObject r)
 {
         m_coefficientOfElasticity = cOfElasticity;
         m_rect = r;
@@ -189,7 +196,7 @@ Wall::Wall(float cOfElasticity, Rectangle r)
 ////////////////////////////////////////////////////////////////
 
 MovableObject::MovableObject(unsigned mass, float cOfResistance,
-                             float cOfElasticity, Rectangle r) :
+                             float cOfElasticity, PhysicalObject r) :
         m_mass(mass),
         m_coefficientOfResistance(cOfResistance)
 {
@@ -212,7 +219,7 @@ inline float MovableObject::getCoefficientOfResistance() const
         return m_coefficientOfResistance;
 }
 
-void MovableObject::updatePosition(unsigned dt)
+void MovableObject::updatePosition(double dt)
 {
         m_rect.updatePosition(m_v0, dt);
 }
@@ -234,28 +241,21 @@ inline void MovableObject::setV(Vector v)
 
 ////////////////////////////////////////////////////////////////
 
-World::World(float cOfEnvResistance, unsigned dbTimeUnitToMsec, float gi) :
+World::World(float cOfEnvResistance,
+             unsigned dbTimeUnitToMsec,
+             float gi) :
         m_dbTimeUnitToMsec(dbTimeUnitToMsec),
         m_ticks(0),
         m_deltaTick(0),
-        m_motion(1),
+        m_coefficientOfTimeWarp(1),
         m_g(VectorUnit(gi) * M_PER_DBU * std::pow(float(dbTimeUnitToMsec) / 100, 2), 270),
         m_coefficientOfResistanceOfEnvironment(cOfEnvResistance),
         m_hasBeenChanged(true)
 {}
 
-World::World() :
-        World(0.2, 1, 50)
-{}
-
 void World::start(unsigned ticks)
 {
         m_ticks = ticks;
-}
-
-void World::setPlayer(MovableObject player)
-{
-        m_player = player;
 }
 
 void World::setWalls(std::vector<Wall> walls)
@@ -265,7 +265,7 @@ void World::setWalls(std::vector<Wall> walls)
 
 void World::setMovables(std::vector<MovableObject> movables)
 {
-        m_bots = movables;
+        m_movables = movables;
 }
 
 void World::add(Wall wall)
@@ -275,12 +275,7 @@ void World::add(Wall wall)
 
 void World::add(MovableObject movable)
 {
-        m_bots.push_back(movable);
-}
-
-MovableObject World::getPlayer() const
-{
-        return m_player;
+        m_movables.push_back(movable);
 }
 
 const std::vector<Wall>& World::getWalls() const
@@ -290,7 +285,7 @@ const std::vector<Wall>& World::getWalls() const
 
 const std::vector<MovableObject>& World::getMovables() const
 {
-        return m_bots;
+        return m_movables;
 }
 
 bool World::hasBeenChanged()
@@ -308,10 +303,22 @@ void World::update(unsigned deltaTicks)
         short t = calculateTime(deltaTicks);
         for (int i = 0; i < t; ++i) {
                 m_hasBeenChanged = true;
-                for (int i = 0; i < static_cast<int>(m_bots.size()); ++i) {
-                        updatePosition(m_bots[i]);
+                for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
+                        updatePosition(m_movables[i]);
                 }
         }
+}
+
+void World::setCoefficientOfTimeWarp(short cOfTimeWarp)
+{
+        if (cOfTimeWarp > 0) {
+                m_coefficientOfTimeWarp = 1.0 / cOfTimeWarp;
+        }
+}
+
+short World::getCoefficientOfTimeWarp()
+{
+        return 1 / m_coefficientOfTimeWarp;
 }
 
 void World::updatePosition(MovableObject& object)
@@ -335,14 +342,14 @@ inline short World::calculateTime(unsigned ticks)
 
 Vector World::getEnvResistanceEffects(const MovableObject& object)
 {
-        VectorUnit f_resistance = std::pow(object.getV().getMagnitude(), 2) * (object.getCoefficientOfResistance() *
-                        m_coefficientOfResistanceOfEnvironment);
+        VectorUnit f_resistance = std::pow(object.getV().getMagnitude(), 2) * object.getCoefficientOfResistance() *
+                        m_coefficientOfResistanceOfEnvironment / 2200;
         return Vector(f_resistance / object.getMass() * m_dbTimeUnitToMsec / 100, object.getV().getAngle() - 180);
 }
 
 std::vector<MovableObject> World::getNearbyObjects(const MovableObject& object)
 {
-        return m_bots;
+        return m_movables;
 }
 
 std::vector<Wall> World::getNearbyWalls(const MovableObject& object)
@@ -352,10 +359,10 @@ std::vector<Wall> World::getNearbyWalls(const MovableObject& object)
 
 void World::objectCollisionDetection(MovableObject& object)
 {
-        for (int i = 0; i < static_cast<int>(m_bots.size()); ++i) {
-                if (&object != &m_bots[i] &&
-                    detectedCollisionBetweenObjects(object, m_bots[i])) {
-                       calculateCollisionEffects(object, m_bots[i]); 
+        for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
+                if (&object != &m_movables[i] &&
+                    detectedCollisionBetweenObjects(object, m_movables[i])) {
+                       calculateCollisionEffects(object, m_movables[i]); 
                 }
         }
         for (int i = 0; i < static_cast<int>(m_walls.size()); ++i) {
@@ -441,15 +448,4 @@ void World::calculateCollisionEffects(MovableObject& o, Wall& w)
         float e = (o.getCoefficientOfElasticity() + w.getCoefficientOfElasticity()) / 2;
         float newMagnitude = e * o.getV().getMagnitude();
         o.setV(Vector(newMagnitude, newAngle));
-}
-bool World::getCollisionSide(const MovableObject& o, const Wall& w)
-{
-        PositionUnit d1x, d2x, d1y, d2y;
-        d1x = o.right() - w.right() < 0 ? 0 : o.right() - w.right();
-        d2x = o.left() - w.left() < 0 ? 0 : o.left() - w.left();
-        d1y = o.top() - w.top() < 0 ? 0 : o.top() - w.top();
-        d2y = o.bottom() - w.bottom() < 0 ? 0 : o.bottom() - w.bottom();
-        PositionUnit dx = o.right() - w.left() - d1x - d2x;
-        PositionUnit dy = o.top() - w.bottom() - d1y - d2y;
-        return (dy > dx);
 }
