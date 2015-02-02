@@ -9,7 +9,6 @@
 #define _PI 3.14159265358979323846
 #endif
 
-#define M_PER_DBU 1000
 using namespace Flyy;
 
 ////////////////////////////////////////////////////////////////
@@ -147,7 +146,7 @@ Position PhysicalObject::getPosition()
         return p;
 };
 
-void PhysicalObject::updatePosition(Vector v, double t)
+void PhysicalObject::updatePosition(Vector v, float t)
 {
         x += v.getX() * t;
         y += v.getY() * t;
@@ -219,9 +218,9 @@ inline float MovableObject::getCoefficientOfResistance() const
         return m_coefficientOfResistance;
 }
 
-void MovableObject::updatePosition(double dt)
+void MovableObject::updatePosition(float slowdowned)
 {
-        m_rect.updatePosition(m_v0, dt);
+        m_rect.updatePosition(m_v0, slowdowned);
 }
 
 void MovableObject::backPosition(VectorUnit deltaMagnitude)
@@ -229,9 +228,9 @@ void MovableObject::backPosition(VectorUnit deltaMagnitude)
         m_rect.updatePosition(Vector(deltaMagnitude, m_v0.getAngle()), 1);
 }
 
-inline void MovableObject::addV(Vector v)
+inline void MovableObject::accelerate(Vector a , float slowdowned)
 {
-        m_v0 += v;
+        m_v0 += a * std::pow(slowdowned, 2);
 }
 
 inline void MovableObject::setV(Vector v)
@@ -247,7 +246,7 @@ World::World(float cOfEnvResistance,
         m_dbTimeUnitToMsec(dbTimeUnitToMsec),
         m_ticks(0),
         m_deltaTick(0),
-        m_coefficientOfTimeWarp(1),
+        m_coefficientOfSlowdown(1),
         m_g(VectorUnit(gi) * M_PER_DBU * std::pow(float(dbTimeUnitToMsec) / 100, 2), 270),
         m_coefficientOfResistanceOfEnvironment(cOfEnvResistance),
         m_hasBeenChanged(true)
@@ -309,25 +308,25 @@ void World::update(unsigned deltaTicks)
         }
 }
 
-void World::setCoefficientOfTimeWarp(short cOfTimeWarp)
+void World::setCoefficientOfSlowdown(short cOfSlowdown)
 {
-        if (cOfTimeWarp > 0) {
-                m_coefficientOfTimeWarp = 1.0 / cOfTimeWarp;
+        if (cOfSlowdown > 0 && cOfSlowdown <= 8) {
+                m_coefficientOfSlowdown = 1.0 / cOfSlowdown;
         }
 }
 
-short World::getCoefficientOfTimeWarp()
+short World::getCoefficientOfSlowdown()
 {
-        return 1 / m_coefficientOfTimeWarp;
+        return 1 / m_coefficientOfSlowdown;
 }
 
 void World::updatePosition(MovableObject& object)
 {
+        object.updatePosition(m_coefficientOfSlowdown);
         objectCollisionDetection(object);
-        object.updatePosition(1);
         Vector a = m_g;
         a += getEnvResistanceEffects(object);
-        object.addV(a);
+        object.accelerate(a, m_coefficientOfSlowdown);
 }
 
 inline short World::calculateTime(unsigned ticks)

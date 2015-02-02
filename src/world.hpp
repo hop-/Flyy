@@ -12,6 +12,7 @@ namespace Flyy
         // using VectorUnit = int;
         typedef long long int PositionUnit;
         typedef int VectorUnit;
+        #define M_PER_DBU 10000
 
         struct Rectangle
         {
@@ -61,7 +62,7 @@ namespace Flyy
                 PhysicalObject(int w, int h);
                 PhysicalObject(int w, int h, Position p);
                 void setPosition(Position newPosition);
-                void updatePosition(Vector v, double t);
+                void updatePosition(Vector v, float t);
                 Position getPosition();
                 PositionUnit left() const;
                 PositionUnit right() const;
@@ -105,11 +106,11 @@ namespace Flyy
                 MovableObject(unsigned mass, float cOfResistance,
                               float cOfElasticity, PhysicalObject r);
                 unsigned getMass() const;
-                void addV(Vector v);
+                void accelerate(Vector a, float slowdowned);
                 Vector getV() const;
                 void setV(Vector v);
                 float getCoefficientOfResistance() const;
-                void updatePosition(double dt);
+                void updatePosition(float slowdowned);
                 void backPosition(VectorUnit deltaMagnitude);
         };
 
@@ -121,7 +122,7 @@ namespace Flyy
                 unsigned m_dbTimeUnitToMsec;
                 unsigned m_ticks;
                 unsigned m_deltaTick;
-                float m_coefficientOfTimeWarp;
+                float m_coefficientOfSlowdown;
 
                 Vector m_g;
                 float m_coefficientOfResistanceOfEnvironment;
@@ -140,8 +141,8 @@ namespace Flyy
                 bool hasBeenChanged();
                 void changesHasBeenSeen();
                 void update(unsigned ticks);
-                void setCoefficientOfTimeWarp(short cOfTimeWarp);
-                short getCoefficientOfTimeWarp();
+                void setCoefficientOfSlowdown(short cOfSlowdown);
+                short getCoefficientOfSlowdown();
         private:
                 void updatePosition(MovableObject& object);
                 short calculateTime(unsigned deltaTicks);
