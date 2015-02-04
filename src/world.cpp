@@ -267,14 +267,16 @@ void World::setMovables(std::vector<MovableObject> movables)
         m_movables = movables;
 }
 
-void World::add(Wall wall)
+int World::add(Wall wall)
 {
         m_walls.push_back(wall);
+        return m_walls.size() - 1 ;
 }
 
-void World::add(MovableObject movable)
+int World::add(MovableObject movable)
 {
         m_movables.push_back(movable);
+        return m_movables.size() - 1;
 }
 
 const std::vector<Wall>& World::getWalls() const
@@ -285,6 +287,21 @@ const std::vector<Wall>& World::getWalls() const
 const std::vector<MovableObject>& World::getMovables() const
 {
         return m_movables;
+}
+
+Wall World::getWall(int index) const
+{
+        return m_walls[index];
+}
+
+MovableObject World::getMovable(int index) const
+{
+        return m_movables[index];
+}
+
+void World::accelerate(int index, Vector a)
+{
+        m_movables[index].accelerate(a, m_coefficientOfSlowdown);
 }
 
 bool World::hasBeenChanged()
@@ -342,7 +359,7 @@ inline short World::calculateTime(unsigned ticks)
 Vector World::getEnvResistanceEffects(const MovableObject& object)
 {
         VectorUnit f_resistance = std::pow(object.getV().getMagnitude(), 2) * object.getCoefficientOfResistance() *
-                        m_coefficientOfResistanceOfEnvironment / 2200;
+                        m_coefficientOfResistanceOfEnvironment / 8200;
         return Vector(f_resistance / object.getMass() * m_dbTimeUnitToMsec / 100, object.getV().getAngle() - 180);
 }
 
@@ -447,4 +464,23 @@ void World::calculateCollisionEffects(MovableObject& o, Wall& w)
         float e = (o.getCoefficientOfElasticity() + w.getCoefficientOfElasticity()) / 2;
         float newMagnitude = e * o.getV().getMagnitude();
         o.setV(Vector(newMagnitude, newAngle));
+}
+
+////////////////////////////////////////////////////////////////
+
+ObjectDriver::ObjectDriver(MovableObject movable, World& world) :
+        m_world(&world)
+{
+        m_index = m_world->add(movable);
+}
+
+MovableObject ObjectDriver::getObject()
+{
+        return m_world->getMovable(m_index);
+}
+
+void ObjectDriver::accelerate(Vector a)
+{
+        a *= static_cast<float>(M_PER_DBU);
+        m_world->accelerate(m_index, a);
 }

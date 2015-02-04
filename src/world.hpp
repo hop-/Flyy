@@ -132,15 +132,18 @@ namespace Flyy
                       unsigned dbTimeUnitToMsec = 1,
                       float gi = 50);
                 void start(unsigned ticks);
+                void update(unsigned ticks);
                 void setWalls(std::vector<Wall> walls);
                 void setMovables(std::vector<MovableObject> movables);
-                void add(Wall wall);
-                void add(MovableObject movable);
+                int add(Wall wall);
+                int add(MovableObject movable);
                 const std::vector<Wall>& getWalls() const;
                 const std::vector<MovableObject>& getMovables() const;
+                Wall getWall(int index) const;
+                MovableObject getMovable(int index) const;
+                void accelerate(int index, Vector a);
                 bool hasBeenChanged();
                 void changesHasBeenSeen();
-                void update(unsigned ticks);
                 void setCoefficientOfSlowdown(short cOfSlowdown);
                 short getCoefficientOfSlowdown();
         private:
@@ -154,6 +157,16 @@ namespace Flyy
                 void calculateCollisionEffects(MovableObject& o1,
                                                MovableObject& o2);
                 void calculateCollisionEffects(MovableObject& o, Wall& w);
+        };
+
+        class ObjectDriver
+        {
+                int m_index;
+                World* m_world;
+        public:
+                ObjectDriver(MovableObject movable, World& world);
+                MovableObject getObject();
+                void accelerate(Vector a);
         };
 }
 
