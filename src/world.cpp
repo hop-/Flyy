@@ -14,8 +14,8 @@ using namespace Flyy;
 ////////////////////////////////////////////////////////////////
 
 Position::Position(int px, int py) :
-        x(px * M_PER_DBU),
-        y(py * M_PER_DBU)
+        x(px * P_UNIT_TO_METER),
+        y(py * P_UNIT_TO_METER)
 {}
 
 inline Position& Position::operator=(const Position& p)
@@ -108,8 +108,8 @@ PhysicalObject::PhysicalObject(int width, int height,
 {
         x = p.x;
         y = p.y;
-        h = height * M_PER_DBU;
-        w = width * M_PER_DBU;
+        h = height * P_UNIT_TO_METER;
+        w = width * P_UNIT_TO_METER;
 }
 
 inline void PhysicalObject::setPosition(Position newPosition)
@@ -241,21 +241,12 @@ inline void MovableObject::setV(Vector v)
 ////////////////////////////////////////////////////////////////
 
 World::World(float cOfEnvResistance,
-             unsigned dbTimeUnitToMsec,
              float gi) :
-        m_dbTimeUnitToMsec(dbTimeUnitToMsec),
-        m_ticks(0),
-        m_deltaTick(0),
         m_coefficientOfSlowdown(1),
-        m_g(VectorUnit(gi) * M_PER_DBU * std::pow(float(dbTimeUnitToMsec) / 100, 2), 270),
+        m_gravityAcceleration(gi, 270),
         m_coefficientOfResistanceOfEnvironment(cOfEnvResistance),
         m_hasBeenChanged(true)
 {}
-
-void World::start(unsigned ticks)
-{
-        m_ticks = ticks;
-}
 
 void World::setWalls(std::vector<Wall> walls)
 {
@@ -314,14 +305,11 @@ void World::changesHasBeenSeen()
         m_hasBeenChanged = false;
 }
 
-void World::update(unsigned deltaTicks)
+void World::update()
 {
-        short t = calculateTime(deltaTicks);
-        for (int i = 0; i < t; ++i) {
-                m_hasBeenChanged = true;
-                for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
-                        updatePosition(m_movables[i]);
-                }
+        m_hasBeenChanged = true;
+        for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
+                updatePosition(m_movables[i]);
         }
 }
 
@@ -341,26 +329,16 @@ void World::updatePosition(MovableObject& object)
 {
         object.updatePosition(m_coefficientOfSlowdown);
         objectCollisionDetection(object);
-        Vector a = m_g;
-        a += getEnvResistanceEffects(object);
-        object.accelerate(a, m_coefficientOfSlowdown);
-}
-
-inline short World::calculateTime(unsigned ticks)
-{
-        unsigned deltaTicks = ticks - m_ticks;
-        m_ticks = ticks;
-        m_deltaTick += deltaTicks;
-        short deltaDbTime = (short) m_deltaTick / m_dbTimeUnitToMsec;
-        m_deltaTick -= m_dbTimeUnitToMsec * deltaDbTime;
-        return deltaDbTime;
+        Vector acceleration = m_gravityAcceleration;
+        acceleration += getEnvResistanceEffects(object);
+        object.accelerate(acceleration, m_coefficientOfSlowdown);
 }
 
 Vector World::getEnvResistanceEffects(const MovableObject& object)
 {
         VectorUnit f_resistance = std::pow(object.getV().getMagnitude(), 2) * object.getCoefficientOfResistance() *
-                        m_coefficientOfResistanceOfEnvironment / 8200;
-        return Vector(f_resistance / object.getMass() * m_dbTimeUnitToMsec / 100, object.getV().getAngle() - 180);
+                        m_coefficientOfResistanceOfEnvironment / 820000;
+        return Vector(f_resistance / object.getMass(), object.getV().getAngle() - 180);
 }
 
 std::vector<MovableObject> World::getNearbyObjects(const MovableObject& object)
@@ -481,6 +459,6 @@ MovableObject ObjectDriver::getObject()
 
 void ObjectDriver::accelerate(Vector a)
 {
-        a *= static_cast<float>(M_PER_DBU);
+        a *= static_cast<float>(P_UNIT_TO_METER);
         m_world->accelerate(m_index, a);
 }

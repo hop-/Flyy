@@ -12,7 +12,7 @@ namespace Flyy
         // using VectorUnit = int;
         typedef long long int PositionUnit;
         typedef int VectorUnit;
-        #define M_PER_DBU 10000
+        #define P_UNIT_TO_METER 10000
 
         struct Rectangle
         {
@@ -119,20 +119,15 @@ namespace Flyy
                 std::vector<Wall> m_walls;
                 std::vector<MovableObject> m_movables;
 
-                unsigned m_dbTimeUnitToMsec;
-                unsigned m_ticks;
-                unsigned m_deltaTick;
                 float m_coefficientOfSlowdown;
 
-                Vector m_g;
+                Vector m_gravityAcceleration;
                 float m_coefficientOfResistanceOfEnvironment;
                 bool m_hasBeenChanged;
         public:
                 World(float cOfEnvResistance = 1,
-                      unsigned dbTimeUnitToMsec = 1,
                       float gi = 50);
-                void start(unsigned ticks);
-                void update(unsigned ticks);
+                void update();
                 void setWalls(std::vector<Wall> walls);
                 void setMovables(std::vector<MovableObject> movables);
                 int add(Wall wall);
@@ -148,7 +143,6 @@ namespace Flyy
                 short getCoefficientOfSlowdown();
         private:
                 void updatePosition(MovableObject& object);
-                short calculateTime(unsigned deltaTicks);
                 Vector getEnvResistanceEffects(const MovableObject& object);
                 void objectCollisionDetection(MovableObject& object);
                 std::vector<MovableObject> getNearbyObjects(const MovableObject& object);
