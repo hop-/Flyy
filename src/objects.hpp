@@ -3,8 +3,8 @@
 
 namespace Flyy
 {
-        class Object
-        {};
+    class Object
+    {};
 }
 
 #endif //_OBJECTS_HPP_

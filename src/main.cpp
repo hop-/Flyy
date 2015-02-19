@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-        Flyy::Game game;
-        game.start();
-        return 0;
+    Flyy::Game game;
+    game.start();
+    return 0;
 }

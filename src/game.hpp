@@ -6,9 +6,9 @@ namespace Flyy
 class Game
 {
 public:
-        void start();
+    void start();
 private:
-        void mainLoop();
+    void mainLoop();
 };
 }
 
