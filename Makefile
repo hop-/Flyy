@@ -45,6 +45,8 @@ info:
 	@echo -e "\tby default: '\e[35m$(CXX)\e[0m'"
 	@echo -e "\e[33mCXXFLAGS\e[0m\n\tfor set compilation flags."
 	@echo -e "\tby default: '\e[35m$(CXXFLAGS)\e[0m'"
+	@echo -e "\e[33mSDL_LIBS\e[0m\n\tfor set SDL libs."
+	@echo -e "\tby default: '\e[35m$(SDL_LIBS)\e[0m'"
 	@echo -e "\e[33mexecable\e[0m\n\tfor rename the executable (program)."
 	@echo -e "\tby default: '\e[32m$(execable)\e[0m'"
 	@echo -e "--------------------------------------------------\n"
