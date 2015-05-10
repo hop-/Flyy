@@ -13,8 +13,8 @@ using namespace Flyy;
 
 ////////////////////////////////////////////////////////////////
 
-inline bool areIntersected(const ObjectInWorld* o1,
-                           const ObjectInWorld* o2)
+inline bool areIntersected(const PhysicalObject* o1,
+                           const PhysicalObject* o2)
 {
     return (o1->left() < o2->right() &&
         o1->right() > o2->left() &&
@@ -22,7 +22,7 @@ inline bool areIntersected(const ObjectInWorld* o1,
         o1->top() > o2->bottom());
 }
 
-inline PositionUnit getIntersectedX(const ObjectInWorld* o1, const ObjectInWorld* o2)
+inline PositionUnit getIntersectedX(const PhysicalObject* o1, const PhysicalObject* o2)
 {
     PositionUnit d1x, d2x;
     d1x = o1->right() - o2->right() < 0 ? 0 : o1->right() - o2->right();
@@ -30,7 +30,7 @@ inline PositionUnit getIntersectedX(const ObjectInWorld* o1, const ObjectInWorld
     return o1->right() - o2->left() - d1x - d2x;
 }
 
-inline PositionUnit getIntersectedY(const ObjectInWorld* o1, const ObjectInWorld* o2)
+inline PositionUnit getIntersectedY(const PhysicalObject* o1, const PhysicalObject* o2)
 {
     PositionUnit d1y, d2y;
     d1y = o1->top() - o2->top() < 0 ? 0 : o1->top() - o2->top();
@@ -38,7 +38,7 @@ inline PositionUnit getIntersectedY(const ObjectInWorld* o1, const ObjectInWorld
     return o1->top() - o2->bottom() - d1y - d2y;
 }
 
-inline bool keepObjectInSurface(MovableObject* o1, const ObjectInWorld* o2)
+inline bool keepObjectInSurface(MovableObject* o1, const PhysicalObject* o2)
 {
     PositionUnit stepsBackForX = std::abs(getIntersectedX(o1, o2) /
                 std::cos(o1->getV().getAngleInRadians()));
@@ -52,30 +52,7 @@ inline bool keepObjectInSurface(MovableObject* o1, const ObjectInWorld* o2)
         return false;
     }
 }
-/*
-inline bool keepObjectInSurface(MovableObject& o1, const ObjectInWorld& o2)
-{
-    PositionUnit intersectedX = getIntersectedX(o1, o2);
-    PositionUnit intersectedY = getIntersectedY(o1, o2);
-    PositionUnit stepsBackForX = intersectedX /
-                std::cos(o1.getV().getAngleInRadians());
-    if (stepsBackForX > 0) {
-        intersectedX = 0 - intersectedX;
-    }
-    PositionUnit stepsBackForY = intersectedY /
-                std::sin(o1.getV().getAngleInRadians());
-    if (stepsBackForY > 0) {
-        intersectedY = 0 - intersectedY;
-    }
-    if (std::abs(stepsBackForX) < std::abs(stepsBackForY)) {
-        o1.backPosition(intersectedX, 0);
-        return true;
-    } else {
-        o1.backPosition(intersectedY, 90);
-        return false;
-    }
-}
-*/
+
 ////////////////////////////////////////////////////////////////
 
 World::World(float cOfEnvResistance,
@@ -174,9 +151,9 @@ void World::updatePosition(MovableObject* object)
 
 Vector World::getEnvResistanceEffects(const MovableObject* object)
 {
-    VectorUnit f_resistance = std::pow(object->getV().getMagnitude(), 2) *
+    VectorUnit f_resistance = object->getV().getMagnitude() *
             object->getCoefficientOfResistance() *
-            m_coefficientOfResistanceOfEnvironment / 820000;
+            m_coefficientOfResistanceOfEnvironment / 82;
     return Vector(f_resistance / object->getMass(), object->getV().getAngle() - 180);
 }
 

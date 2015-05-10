@@ -11,6 +11,7 @@ namespace Flyy
     {
         PositionUnit x;
         PositionUnit y;
+        
         Position(int px = 0, int py = 0);
         Position& operator=(const Position& p);
     };
@@ -20,6 +21,9 @@ namespace Flyy
         Position p;
         PositionUnit w;
         PositionUnit h;
+
+        Rectangle();
+        Rectangle(PositionUnit w, PositionUnit h, Position position);
     };
 
 
@@ -30,7 +34,8 @@ namespace Flyy
 
     public:
         BaseObject();
-        BaseObject(PositionUnit x, PositionUnit y, Position position);
+        BaseObject(Rectangle rect);
+        BaseObject(int w, int h, Position position);
         virtual ~BaseObject();
     };
 }

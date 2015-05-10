@@ -36,27 +36,14 @@ namespace Flyy
     class PhysicalObject :
         virtual public BaseObject
     {
-    public:
-        PhysicalObject(){};
-        PhysicalObject(int w, int h);
-        PhysicalObject(int w, int h, Position p);
-        void setPosition(Position newPosition);
-        void updatePosition(Vector v, float t);
-        Position getPosition();
-        PositionUnit left() const;
-        PositionUnit right() const;
-        PositionUnit top() const;
-        PositionUnit bottom() const;
-    };
-
-    class ObjectInWorld
-    {
     protected:
-        PhysicalObject m_rect;
         float m_coefficientOfElasticity;
 
     public:
-        PhysicalObject getRect() const;
+        PhysicalObject(){};
+        PhysicalObject(int w, int h, Position p);
+        PhysicalObject(float cOfElasticity);
+        Rectangle getRect() const;
         PositionUnit left() const;
         PositionUnit right() const;
         PositionUnit top() const;
@@ -65,15 +52,15 @@ namespace Flyy
     };
 
     class Wall :
-        public ObjectInWorld
+        virtual public PhysicalObject
     {
     public:
         Wall(){};
-        Wall(float cOfElasticity, PhysicalObject r);
+        Wall(float cOfElasticity, Rectangle r);
     };
 
     class MovableObject :
-        public ObjectInWorld
+        virtual public PhysicalObject
     {
         unsigned m_mass;
         Vector m_velocity;
@@ -82,7 +69,7 @@ namespace Flyy
     public:
         MovableObject(){};
         MovableObject(unsigned mass, float cOfResistance,
-                      float cOfElasticity, PhysicalObject r);
+                      float cOfElasticity, Rectangle r);
         unsigned getMass() const;
         void accelerate(Vector a, float slowdowned);
         Vector getV() const;

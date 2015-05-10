@@ -90,16 +90,18 @@ Vector Flyy::operator*(float a, Vector b)
 ////////////////////////////////////////////////////////////////
 
 PhysicalObject::PhysicalObject(int width, int height,
-                               Position position = Position())
+                               Position position = Position()) :
+    BaseObject(width, height, position)
+{}
+
+PhysicalObject::PhysicalObject(float cOfElasticity)
 {
-    m_rect.p = position;
-    m_rect.h = height * P_UNIT_TO_METER;
-    m_rect.w = width * P_UNIT_TO_METER;
+    m_coefficientOfElasticity = cOfElasticity;
 }
 
-void PhysicalObject::setPosition(Position newPosition)
+Rectangle PhysicalObject::getRect() const
 {
-    m_rect.p = newPosition;
+    return m_rect;
 }
 
 PositionUnit PhysicalObject::left() const
@@ -122,66 +124,27 @@ PositionUnit PhysicalObject::bottom() const
     return m_rect.p.y;
 }
 
-Position PhysicalObject::getPosition()
-{
-    return m_rect.p;
-};
-
-void PhysicalObject::updatePosition(Vector v, float t)
-{
-    m_rect.p.x += v.getX() * t;
-    m_rect.p.y += v.getY() * t;
-}
-
-////////////////////////////////////////////////////////////////
-
-PhysicalObject ObjectInWorld::getRect() const
-{
-    return m_rect;
-}
-
-PositionUnit ObjectInWorld::left() const
-{
-    return m_rect.left();
-}
-
-PositionUnit ObjectInWorld::right() const
-{
-    return m_rect.right();
-}
-
-PositionUnit ObjectInWorld::top() const
-{
-    return m_rect.top();
-}
-
-PositionUnit ObjectInWorld::bottom() const
-{
-    return m_rect.bottom();
-}
-
-float ObjectInWorld::getCoefficientOfElasticity() const
+float PhysicalObject::getCoefficientOfElasticity() const
 {
     return m_coefficientOfElasticity;
 }
 
 ////////////////////////////////////////////////////////////////
 
-Wall::Wall(float cOfElasticity, PhysicalObject r)
-{
-    m_coefficientOfElasticity = cOfElasticity;
-    m_rect = r;
-}
+Wall::Wall(float cOfElasticity, Rectangle r) :
+    BaseObject(r),
+    PhysicalObject(cOfElasticity)
+{}
 
 ////////////////////////////////////////////////////////////////
 
 MovableObject::MovableObject(unsigned mass, float cOfResistance,
-                             float cOfElasticity, PhysicalObject r) :
-    m_mass(mass),
-    m_coefficientOfResistance(cOfResistance)
+                             float cOfElasticity, Rectangle r) :
+    BaseObject(r),
+    PhysicalObject(cOfElasticity)
 {
-    m_coefficientOfElasticity = cOfElasticity;
-    m_rect = r;
+    m_mass = mass;
+    m_coefficientOfResistance = cOfResistance;
 }
 
 unsigned MovableObject::getMass() const
@@ -196,15 +159,13 @@ Vector MovableObject::getV() const
 
 void MovableObject::move(PositionUnit dx, PositionUnit dy)
 {
-    Position p = m_rect.getPosition();
-    p.x += dx;
-    p.y += dy;
-    m_rect.setPosition(p);
+    m_rect.p.x += dx;
+    m_rect.p.y += dy;
 }
 
 void MovableObject::setPosition(Position p)
 {
-    m_rect.setPosition(p);
+    m_rect.p = p;
 }
 
 float MovableObject::getCoefficientOfResistance() const
@@ -214,17 +175,22 @@ float MovableObject::getCoefficientOfResistance() const
 
 void MovableObject::updatePosition(float slowdowned)
 {
-    m_rect.updatePosition(m_velocity, slowdowned);
+    m_rect.p.x += m_velocity.getX() * slowdowned;
+    m_rect.p.y += m_velocity.getY() * slowdowned;
 }
 
 void MovableObject::backPosition(VectorUnit deltaMagnitude)
 {
-    m_rect.updatePosition(Vector(deltaMagnitude, m_velocity.getAngle()), 1);
+    Vector backV(deltaMagnitude, m_velocity.getAngle());
+    m_rect.p.x += backV.getX();
+    m_rect.p.y += backV.getY();
 }
 
 void MovableObject::backPosition(VectorUnit deltaMagnitude, float angle)
 {
-    m_rect.updatePosition(Vector(deltaMagnitude, angle),     1);
+    Vector backV(deltaMagnitude, angle);
+    m_rect.p.x += backV.getX();
+    m_rect.p.y += backV.getY();
 }
 
 void MovableObject::accelerate(Vector a , float slowdowned)
