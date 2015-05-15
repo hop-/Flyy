@@ -1,0 +1,6 @@
+ls ../src/base_obj*pp
+cp ../src/base_obj*pp src/
+ls ../src/logic_obj*pp
+cp ../src/logic_obj*pp src/
+ls ../src/world*pp
+cp ../src/world*pp src/
