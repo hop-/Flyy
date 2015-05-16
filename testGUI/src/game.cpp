@@ -23,10 +23,10 @@ void Flyy::Game::init()
 
 void Flyy::Game::setupWorld()
 {
-        MovableObject* o1 = new MovableObject(4, 0.3, 0.8, Rectangle(40, 30, Position(400, 1000)));
+        MovableObject* o1 = new MovableObject(5, 0.3, 0.8, Rectangle(40, 30, Position(400, 1000)));
         MovableObject* o2 = new MovableObject(5, 0.2, 0.88, Rectangle(30, 40, Position(1000, 1000)));
-        MovableObject* o3 = new MovableObject(7, 0.3, 0.82, Rectangle(40, 40, Position(1200, 1200)));
-        MovableObject* o4 = new MovableObject(6, 0.49, 0.75, Rectangle(30, 30, Position(1300, 1100)));
+        MovableObject* o3 = new MovableObject(6, 0.3, 0.82, Rectangle(40, 40, Position(1200, 1200)));
+        MovableObject* o4 = new MovableObject(4, 0.49, 0.75, Rectangle(30, 30, Position(1300, 1100)));
         o1->setV(Vector(5000, 0));
         o2->setV(Vector(8000, 180));
         o3->setV(Vector(11000, 120));

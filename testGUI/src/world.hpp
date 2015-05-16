@@ -22,7 +22,6 @@ namespace Flyy
     public:
         World(float cOfEnvResistance = 1,
               float gi = 50);
-        void update();
         void setWalls(std::vector<Wall*> walls);
         void setMovables(std::vector<MovableObject*> movables);
         int add(Wall* wall);
@@ -34,14 +33,15 @@ namespace Flyy
         void accelerate(int index, Vector a);
         bool hasBeenChanged();
         void changesHasBeenSeen();
+        void update();
         void setCoefficientOfSlowdown(short cOfSlowdown);
         short getCoefficientOfSlowdown();
 
     private:
         void updatePosition(MovableObject* object);
         Vector getEnvResistanceEffects(const MovableObject* object);
-        void objectCollisionDetection(MovableObject* object);
         std::vector<MovableObject*> getNearbyObjects(const MovableObject* object);
+        void objectCollisionDetection(MovableObject* object);
         std::vector<Wall*> getNearbyWalls(const MovableObject* object);
         void calculateCollisionEffects(MovableObject* o1,
                                        MovableObject* o2);

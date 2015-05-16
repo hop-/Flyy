@@ -19,7 +19,7 @@ inline bool areIntersected(const PhysicalObject* o1,
     return (o1->left() < o2->right() &&
         o1->right() > o2->left() &&
         o1->bottom() < o2->top() &&
-        o1->top() > o2->bottom());
+        o1->top() > o2->bottom() && !o1->hasBeenIntersectedWith(o2));
 }
 
 inline PositionUnit getIntersectedX(const PhysicalObject* o1, const PhysicalObject* o2)
@@ -123,9 +123,12 @@ void World::changesHasBeenSeen()
 void World::update()
 {
     m_hasBeenChanged = true;
-    //for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
-    //    updatePosition(m_movables[i]);
-    //}
+    for (auto object : m_movables) {
+        object->clearIntersectedObjectList();
+    }
+    for (auto object : m_walls) {
+        object->clearIntersectedObjectList();
+    }
     for (auto object : m_movables) {
         updatePosition(object);
     }
@@ -172,24 +175,17 @@ std::vector<Wall*> World::getNearbyWalls(const MovableObject* object)
 
 void World::objectCollisionDetection(MovableObject* object)
 {
-    //for (int i = 0; i < static_cast<int>(m_movables.size()); ++i) {
-    //    if (object != m_movables[i] &&
-    //        areIntersected(object, m_movables[i])) {
-    //           calculateCollisionEffects(object, m_movables[i]); 
-    //    }
-    //}
     for (auto movable : m_movables) {
         if (object != movable && areIntersected(object, movable)) {
+            movable->addIntersectedObject(object);
+            object->addIntersectedObject(movable);
             calculateCollisionEffects(object, movable);
         }
     }
-    //for (int i = 0; i < static_cast<int>(m_walls.size()); ++i) {
-    //    if (areIntersected(object, m_walls[i])) {
-    //        calculateCollisionEffects(object, m_walls[i]);
-    //    }
-    //}
     for (auto wall : m_walls) {
         if (areIntersected(object, wall)) {
+            wall->addIntersectedObject(object);
+            object->addIntersectedObject(wall);
             calculateCollisionEffects(object, wall);
         }
     }
