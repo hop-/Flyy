@@ -2,7 +2,7 @@ SHELL := /bin/bash
 CXX ?= g++
 CXXFLAGS ?= -Wall -std=c++11
 # lib options for compiler
-SDL_LIBS ?= -lSDL2
+SDL_LIBS ?= -lSDL2 -lSDL2_image
 # source and objcet directorys
 SRC_DIR ?= src
 OBJ_DIR ?= objs
