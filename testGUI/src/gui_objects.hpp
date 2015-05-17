@@ -8,15 +8,18 @@
 #include <string>
 namespace Flyy
 {
-    class DrawableObject :
-        virtual public BaseObject
+    namespace Gui
     {
-        SDL_Surface* m_surface;
+        class DrawableObject :
+            virtual public BaseObject
+        {
+            SDL_Surface* m_surface;
 
-    public:
-        void setImage(std::string fileName);
-        SDL_Surface* image();
-        SDL_Rect rect();
-    };
-}
+            public:
+            void setImage(std::string fileName);
+            SDL_Surface* image();
+            SDL_Rect rect();
+        };
+    } // namespace Gui
+} // namespace Flyy
 #endif //_GUI_OBJECTS_HPP_

@@ -10,6 +10,7 @@
 #endif
 
 using namespace Flyy;
+using namespace Flyy::Physics;
 
 ////////////////////////////////////////////////////////////////
 
@@ -65,7 +66,7 @@ Vector& Vector::operator+=(Vector v)
     return *this;
 }
 
-Vector Flyy::operator+(Vector a, Vector b)
+Vector Flyy::Physics::operator+(Vector a, Vector b)
 {
     return a += b;
 }
@@ -77,12 +78,12 @@ Vector& Vector::operator*=(float s)
     return *this;
 }
 
-Vector Flyy::operator*(Vector a, float b)
+Vector Flyy::Physics::operator*(Vector a, float b)
 {
     return a *= b;
 }
 
-Vector Flyy::operator*(float a, Vector b)
+Vector Flyy::Physics::operator*(float a, Vector b)
 {
     return b *= a;
 }

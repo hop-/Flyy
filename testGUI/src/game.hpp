@@ -6,20 +6,20 @@
 
 namespace Flyy
 {
-        class Game
-        {
-                World m_l;
-                Gui m_g;
+    class Game
+    {
+        Physics::World m_l;
+        Gui m_g;
 
-                unsigned m_msPerUpdate;
-        public:
-                Game();
-                void start();
-        private:
-                void init();
-                void mainLoop();
-                void setupWorld();
-        };
+        unsigned m_msPerUpdate;
+    public:
+        Game();
+        void start();
+    private:
+        void init();
+        void mainLoop();
+        void setupWorld();
+    };
 }
 
 #endif //_GAME_HPP_

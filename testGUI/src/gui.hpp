@@ -16,13 +16,13 @@ namespace Flyy
         public:
                 Gui();
                 void init();
-                void update(World& world);
+                void update(Physics::World& world);
                 void destroy();
                 unsigned getTicks();
                 BaseEvent* getEvent();
         private:
-                void drawObj(MovableObject* o, int r, int g, int b);
-                void drawObj(Wall* o);
+                void drawObj(Physics::MovableObject* o, int r, int g, int b);
+                void drawObj(Physics::Wall* o);
         };
 }
 

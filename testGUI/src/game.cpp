@@ -2,6 +2,9 @@
 #include "events.hpp"
 #include <iostream>
 
+using namespace Flyy;
+using namespace Flyy::Physics;
+
 Flyy::Game::Game() :
         m_l(1, 49),
         m_g(),

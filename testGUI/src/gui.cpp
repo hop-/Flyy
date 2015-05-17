@@ -2,6 +2,7 @@
 #include <iostream>
 
 using namespace Flyy;
+using namespace Physics;
 
 Gui::Gui()
 {}

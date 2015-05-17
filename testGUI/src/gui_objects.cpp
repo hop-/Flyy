@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 
 using namespace Flyy;
+using namespace Flyy::Gui;
 
 inline SDL_Rect toSDLRect(const Rectangle& r)
 {
