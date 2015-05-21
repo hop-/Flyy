@@ -24,7 +24,7 @@ _setDebug:
 	@echo -e "\e[33mDebug.\e[0m"
 _setMingw:
 	$(eval execable ?= flyy.exe)
-	$(eval LIBS += -mwindows -lmingw32 -sdl2main)
+	$(eval LIBS += -mwindows -lmingw32 -lsdl2main)
 	@echo -e "\e[32mMinGW.\e[0m"
 _makeODir:
 	@mkdir -p $(OBJ_DIR)
