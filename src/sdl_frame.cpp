@@ -1,11 +1,9 @@
-#include "gui.hpp"      // header
-
-#include "layer.hpp"    // for using Layer class
+#include "sdl_frame.hpp"      // header
 
 #include "exception.hpp"   // for using Exception class
 
 using namespace Flyy;
-using namespace Gui;
+using namespace SDL;
 
 Frame::Frame(std::string title, int w, int h) :
     m_width{w},
@@ -27,14 +25,4 @@ void Frame::init()
     if (m_window == 0) {
         throw Exception("Frame - Can't Create Window.");
     }
-}
-
-void Frame::push(Layer* layer)
-{
-    m_LayerStack.push_back(layer);
-}
-
-void Frame::pop()
-{
-    m_LayerStack.pop_back();
 }
