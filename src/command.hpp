@@ -1,17 +1,17 @@
 #ifndef _BASE_COMMAND_HPP_
 #define _BASE_COMMAND_HPP_
 
-#include "logic_objects.hpp"
+#include "base_object.hpp"
 
 namespace Flyy
 {
     namespace Game
     {
-        class BaseCommand
+        class Command
         {
         public:
-            virtual ~BaseCommand() {};
-            virtual void  exec(Physics::PhysicalObject* object) = 0;
+            virtual ~Command() {};
+            virtual void  exec(BaseObject* object) = 0;
         };
     } // namespace Game
 } // namespace Flyy

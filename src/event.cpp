@@ -1,25 +1,28 @@
-#include "events.hpp"
+#include "event.hpp"
 
 using namespace Flyy;
+using namespace Game;
 
 ID::ID() :
     m_id(++m_count)
 {}
 
-inline int ID::operator()() const
+int ID::operator()() const
 {
     return m_id; 
 }
 
 int ID::m_count = 0;
 
+/////////////////////////////////////////////////////////////////
+
 template<class T>
-inline int Event<T>::getType()
+int EventCreator<T>::getType()
 {
     return type();
 }
 
 template<class T>
-const ID Event<T>::type;
+const ID EventCreator<T>::type;
 
 /////////////////////////////////////////////////////////////////

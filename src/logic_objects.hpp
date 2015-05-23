@@ -9,8 +9,8 @@ namespace Flyy
 {
     namespace Physics
     {
-        // using VectorUnit = int;
-        typedef int VectorUnit;
+        using VectorUnit = int;
+        // typedef int VectorUnit;
 
         class Vector
         {

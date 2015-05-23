@@ -3,8 +3,8 @@
 
 namespace Flyy
 {
-    // using PositionUnit = long long int;
-    typedef long long int PositionUnit;
+    using PositionUnit = long long int;
+    // typedef long long int PositionUnit;
     #define P_UNIT_TO_METER 10000
 
     struct Position
