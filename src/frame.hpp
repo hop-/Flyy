@@ -15,10 +15,11 @@ namespace Flyy
 
         public:
             Frame() = default;
+            virtual ~Frame() = default;
             virtual void init() = 0;
+            virtual void destroy() = 0;
             void push(Layer* layer);
             void pop();
-            virtual ~Frame() = default;
         };
     } // namespace Gui 
 } // namespace Flyy

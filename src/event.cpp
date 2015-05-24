@@ -1,7 +1,7 @@
 #include "event.hpp"
 
 using namespace Flyy;
-using namespace Game;
+using namespace Flyy::Game;
 
 ID::ID() :
     m_id(++m_count)

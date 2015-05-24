@@ -1,7 +1,7 @@
 #include "control.hpp"
 
 using namespace Flyy;
-using namespace Game;
+using namespace Flyy::Game;
 
 Control::Control(){}
 

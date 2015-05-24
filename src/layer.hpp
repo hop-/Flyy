@@ -5,10 +5,16 @@ namespace Flyy
 {
     namespace Gui
     {
+        class Frame;    // defined class Flyy::Gui::Frame from frame.hpp
+
         class Layer
         {
+            static Frame* m_parent;
+
         public:
-            virtual ~Layer(){};
+            virtual ~Layer() = default;
+            Frame* frame();
+            void setFrame(Frame* parent);
         };
     } // namespace Gui
 } // namespace Flyy

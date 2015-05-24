@@ -1,7 +1,7 @@
 #include "frame.hpp"      // header
 
 using namespace Flyy;
-using namespace Gui;
+using namespace Flyy::Gui;
 
 void Frame::push(Layer* layer)
 {

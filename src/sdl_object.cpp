@@ -1,9 +1,9 @@
-#include "gui_objects.hpp"
+#include "sdl_object.hpp"
 
 #include <SDL2/SDL_image.h>
 
 using namespace Flyy;
-using namespace Flyy::Gui;
+using namespace Flyy::SDL;
 
 inline SDL_Rect toSDLRect(const Rectangle& r)
 {
