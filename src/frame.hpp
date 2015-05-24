@@ -18,6 +18,7 @@ namespace Flyy
             virtual ~Frame() = default;
             virtual void init() = 0;
             virtual void destroy() = 0;
+            void start();
             void push(Layer* layer);
             void pop();
         };

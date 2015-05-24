@@ -14,3 +14,23 @@ void Layer::setFrame(Frame* parent)
 {
     m_parent = parent;
 }
+
+bool Layer::isStopped()
+{
+    return m_stopped;
+}
+
+void Layer::stop(bool state)
+{
+    m_stopped = state;
+}
+
+bool Layer::inputIsLocked()
+{
+    return m_inputIsLocked;
+}
+
+void Layer::lockInput(bool state)
+{
+    m_inputIsLocked = state;
+}

@@ -10,11 +10,18 @@ namespace Flyy
         class Layer
         {
             static Frame* m_parent;
+            
+            bool m_stopped{false};
+            bool m_inputIsLocked{false};
 
         public:
             virtual ~Layer() = default;
             Frame* frame();
             void setFrame(Frame* parent);
+            bool isStopped();
+            void stop(bool state);
+            bool inputIsLocked();
+            void lockInput(bool state);
         };
     } // namespace Gui
 } // namespace Flyy
