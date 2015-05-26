@@ -1,9 +1,10 @@
-#include "sdl_frame.hpp"      // header
-
-#include "exception.hpp"   // Flyy::Exception
+#include "sdl_frame.hpp"    // header
+#include "exception.hpp"    // Flyy::Exception
+#include "game_events.hpp"  // <game events> 
 
 using namespace Flyy;
 using namespace Flyy::SDL;
+using namespace Flyy::Game;
 
 Frame::Frame(std::string title, int w, int h) :
     m_width{w},
@@ -54,4 +55,18 @@ void Frame::destroy()
     m_surface = 0;
     SDL_DestroyWindow(m_window);
     m_window = 0;
+}
+
+Event* Frame::getEvent()
+{
+    Event* event = 0;
+    SDL_Event sdlEvent;
+    SDL_PollEvent(&sdlEvent);
+    // TODO
+    return event;
+}
+
+void Frame::draw()
+{
+    SDL_RenderPresent(m_renderer);
 }

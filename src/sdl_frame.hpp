@@ -30,8 +30,12 @@ namespace Flyy
             ~Frame();
             void init();
             void destroy();
+            Game::Event* getEvent(); 
+
+        private:
+            void draw();
         };
-    } // namespace SDLGui 
+    } // namespace SDL
 } // namespace Flyy
 
 #endif //_SDLFRAME_HPP_

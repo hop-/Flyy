@@ -1,7 +1,5 @@
-#ifndef _EVENTS_HPP_
-#define _EVENTS_HPP_
-
-#include "base_object.hpp"
+#ifndef _EVENT_HPP_
+#define _EVENT_HPP_
 
 namespace Flyy
 {
@@ -35,4 +33,4 @@ namespace Flyy
     } // namespace Game
 } // namespace Flyy
 
-#endif //_EVENTS_HPP_
+#endif //_EVENT_HPP_

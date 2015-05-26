@@ -5,15 +5,21 @@ using namespace Flyy::Gui;
 
 void Frame::start()
 {
-    bool isRun = true;
-
+    m_running = true;
+    // main loop
     do {
         for (Layer* layer : m_LayerStack) {
             if (layer->isStopped()) {
                 continue;
             }
         }
-    } while (isRun);
+        draw();
+    } while (m_running);
+}
+
+void Frame::stop()
+{
+    m_running = false;
 }
 
 void Frame::push(Layer* layer)

@@ -1,5 +1,5 @@
-#ifndef _BASE_LAYER_HPP_
-#define _BASE_LAYER_HPP_
+#ifndef _LAYER_HPP_
+#define _LAYER_HPP_
 
 namespace Flyy
 {
@@ -26,4 +26,4 @@ namespace Flyy
     } // namespace Gui
 } // namespace Flyy
 
-#endif //_BASE_LAYER_HPP_
+#endif //_LAYER_HPP_
