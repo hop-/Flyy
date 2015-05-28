@@ -2,6 +2,7 @@
 #define _SDLFRAME_HPP_
 
 #include "frame.hpp"    // Flyy::Gui::Frame
+
 #include <SDL2/SDL.h>   // SDL_Window,
                         // SDL_Renderer,
                         // SDL_Texture,
@@ -14,12 +15,12 @@ namespace Flyy
         class Frame :
             public Flyy::Gui::Frame
         {   
-            // geometry
+        // geometry
             int m_width;
             int m_height;
-            // title
+        // title
             std::string m_title;
-            // SDL
+        // SDL.h
             SDL_Window* m_window;
             SDL_Renderer* m_renderer;
             SDL_Texture* m_texture;
@@ -27,13 +28,13 @@ namespace Flyy
 
         public:
             Frame(std::string title = "Flyy", int w = 800, int h = 600);
-            ~Frame();
             void init();
             void destroy();
-            Game::Event* getEvent(); 
 
         private:
             void draw();
+            Game::Event* getEvent(); 
+            unsigned getTicks();
         };
     } // namespace SDL
 } // namespace Flyy

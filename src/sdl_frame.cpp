@@ -12,11 +12,6 @@ Frame::Frame(std::string title, int w, int h) :
     m_title{title}
 {}
 
-Frame::~Frame()
-{
-    destroy();
-}
-
 void Frame::init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -57,6 +52,11 @@ void Frame::destroy()
     m_window = 0;
 }
 
+void Frame::draw()
+{
+    SDL_RenderPresent(m_renderer);
+}
+
 Event* Frame::getEvent()
 {
     Event* event = 0;
@@ -66,7 +66,7 @@ Event* Frame::getEvent()
     return event;
 }
 
-void Frame::draw()
+unsigned Frame::getTicks()
 {
-    SDL_RenderPresent(m_renderer);
+    return SDL_GetTicks();
 }

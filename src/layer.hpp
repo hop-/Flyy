@@ -3,9 +3,14 @@
 
 namespace Flyy
 {
+    namespace Game
+    {
+        class Event;        // declared Flyy::Game::Event from event.hpp
+    } // namespace Game
+
     namespace Gui
     {
-        class Frame;    // defined class Flyy::Gui::Frame from frame.hpp
+        class Frame;        // declared Flyy::Gui::Frame from frame.hpp
 
         class Layer
         {
@@ -22,6 +27,8 @@ namespace Flyy
             void stop(bool state);
             bool inputIsLocked();
             void lockInput(bool state);
+            virtual void update(Game::Event* event) = 0;
+            virtual void draw() = 0;
         };
     } // namespace Gui
 } // namespace Flyy

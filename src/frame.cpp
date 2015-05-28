@@ -1,4 +1,6 @@
-#include "frame.hpp"      // header
+#include "frame.hpp"    // header
+#include "layer.hpp"    // Flyy::Gui::Layer
+#include "event.hpp"    // Flyy::Game::Event
 
 using namespace Flyy;
 using namespace Flyy::Gui;
@@ -6,13 +8,30 @@ using namespace Flyy::Gui;
 void Frame::start()
 {
     m_running = true;
+    unsigned previousTicks = getTicks();
+    unsigned realLag = 0;
     // main loop
     do {
+        Game::Event* event = getEvent();
+        unsigned currentTicks = getTicks();
+        unsigned deltaTicks = currentTicks - previousTicks;
+        previousTicks = currentTicks;
+        realLag += deltaTicks;
+        unsigned lag = realLag;     // setted to realLag in case,
+                                    // when for loop is empty
         for (Layer* layer : m_LayerStack) {
             if (layer->isStopped()) {
                 continue;
             }
+            lag = realLag;
+            while (lag >= m_msPerUpdate) {
+                layer->update(event);
+                lag -= m_msPerUpdate;
+            }
+            layer->draw();
         }
+        realLag = lag;
+        delete event;
         draw();
     } while (m_running);
 }
@@ -30,4 +49,14 @@ void Frame::push(Layer* layer)
 void Frame::pop()
 {
     m_LayerStack.pop_back();
+}
+
+unsigned Frame::updateRate()
+{
+    return m_msPerUpdate;
+}
+
+void Frame::setUpdateRate(unsigned perMS)
+{
+    m_msPerUpdate = perMS;
 }
