@@ -12,7 +12,6 @@ void Frame::start()
     unsigned realLag = 0;
     // main loop
     do {
-        Game::Event* event = getEvent();
         unsigned currentTicks = getTicks();
         unsigned deltaTicks = currentTicks - previousTicks;
         previousTicks = currentTicks;
@@ -20,6 +19,7 @@ void Frame::start()
         unsigned lag = realLag;     // setted to realLag in case,
                                     // when for loop is empty
         for (Layer* layer : m_LayerStack) {
+            const Game::Event* event = getEvent(layer->control());
             if (layer->isStopped()) {
                 continue;
             }
@@ -31,7 +31,7 @@ void Frame::start()
             layer->draw();
         }
         realLag = lag;
-        delete event;
+        // delete event; not needed
         draw();
     } while (m_running);
 }

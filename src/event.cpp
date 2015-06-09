@@ -15,7 +15,7 @@ int ID::operator()() const
 int ID::m_count = 0;
 
 /////////////////////////////////////////////////////////////////
-
+/*
 template<class T>
 int EventCreator<T>::getType()
 {
@@ -24,5 +24,5 @@ int EventCreator<T>::getType()
 
 template<class T>
 const ID EventCreator<T>::type;
-
+*/
 /////////////////////////////////////////////////////////////////

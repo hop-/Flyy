@@ -8,7 +8,9 @@ namespace Flyy
 {
     namespace Game
     {
-
+        class EventQuit :
+            public EventCreator<EventQuit>
+        {};
     } // namespace Game
 } // namespace Flyy
 

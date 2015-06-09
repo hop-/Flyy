@@ -33,7 +33,7 @@ namespace Flyy
 
         private:
             void draw();
-            Game::Event* getEvent(); 
+            const Game::Event* getEvent(const Game::Control* control); 
             unsigned getTicks();
         };
     } // namespace SDL

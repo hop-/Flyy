@@ -19,7 +19,7 @@ namespace Flyy
         {
         public:
             virtual ~Event(){};
-            virtual int getType() = 0;
+            virtual int getType() const = 0;
         };
 
         template <class T>
@@ -28,8 +28,14 @@ namespace Flyy
         {
         public:
             static const ID type;
-            int getType();
+            int getType() const
+            {
+                return type();
+            }
         };
+
+        template<class T>
+        const ID EventCreator<T>::type;
     } // namespace Game
 } // namespace Flyy
 

@@ -1,6 +1,7 @@
 #include "sdl_frame.hpp"    // header
 #include "exception.hpp"    // Flyy::Exception
 #include "game_events.hpp"  // <game events> 
+#include "control.hpp"      // Flyy::Game::Control
 
 using namespace Flyy;
 using namespace Flyy::SDL;
@@ -57,13 +58,25 @@ void Frame::draw()
     SDL_RenderPresent(m_renderer);
 }
 
-Event* Frame::getEvent()
+const Game::Event* Frame::getEvent(const Game::Control* control)
 {
-    Event* event = 0;
     SDL_Event sdlEvent;
     SDL_PollEvent(&sdlEvent);
-    // TODO
-    return event;
+    switch (sdlEvent.type) {
+    case SDL_QUIT :
+        return new EventQuit();
+        break;
+    case SDL_KEYDOWN :
+        return control->event(sdlEvent.key.keysym.scancode, true);
+        break;
+    case SDL_KEYUP :
+        return control->event(sdlEvent.key.keysym.scancode, false);
+        break;
+    // mouse events TODO
+    default:
+        break;
+    }
+    return 0;
 }
 
 unsigned Frame::getTicks()

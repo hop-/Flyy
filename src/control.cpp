@@ -3,30 +3,28 @@
 using namespace Flyy;
 using namespace Flyy::Game;
 
-Control::Control(){}
-
-Control::Control(std::map<Input, Command*> controls) :
+Control::Control(std::map<KeyInput, Event*> controls) :
     m_controls{controls}
 {}
 
-void Control::exec(Input i, BaseObject* object)
+const Event* Control::event(KeyInput i, bool press) const
 {
-    if (m_controls[i] == 0)
-        m_controls[i]->exec(object);
+    // press release TODO
+    return m_controls.at(i);
 }
 
-bool Control::add(Input i, Command* c)
+bool Control::add(KeyInput i, Event* e)
 {
     //TODO
     return true;
 }
 
-std::map<Input, Command*> Control::get() const
+std::map<KeyInput, Event*> Control::get() const
 {
     return m_controls;
 }
 
-void Control::set(std::map<Input, Command*> controls)
+void Control::set(std::map<KeyInput, Event*> controls)
 {
     m_controls = controls;
 }

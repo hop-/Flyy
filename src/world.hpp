@@ -1,15 +1,18 @@
 #ifndef _WORLD_HPP_
 #define _WORLD_HPP_
 
-#include <vector>
+#include <vector>               // std::vector
+#include "logic.hpp"            // Flyy::Game::Logic
 
-#include "logic_objects.hpp"
+#include "logic_objects.hpp"    // Flyy::Physics::Wall
+                                // Flyy::Physics::MovableObject
 
 namespace Flyy
 {
     namespace Physics
     {
-        class World
+        class World :
+            public Flyy::Game::Logic
         {
             std::vector<Wall*> m_walls;
             std::vector<MovableObject*> m_movables;
