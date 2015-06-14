@@ -11,7 +11,7 @@ namespace Flyy
         {
         public:
             virtual ~Command() {};
-            virtual void  exec(BaseObject* object) = 0;
+            virtual void  exec(Base::Object* object) = 0;
         };
     } // namespace Game
 } // namespace Flyy

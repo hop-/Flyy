@@ -38,6 +38,8 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -rf $(execable)
 	@echo -e "\e[32mCleaned.\e[0m"
+mingwClean: _setMingw clean
+
 help: info
 info:
 	@echo -e "\nMakefile, for compile \e[1;32m$(execable)\e[0m\n"

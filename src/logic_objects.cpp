@@ -91,8 +91,8 @@ Vector Flyy::Physics::operator*(float a, Vector b)
 ////////////////////////////////////////////////////////////////
 
 PhysicalObject::PhysicalObject(int width, int height,
-                               Position position = Position()) :
-    BaseObject(width, height, position)
+                               Base::Position position = Base::Position()) :
+    Base::Object(width, height, position)
 {}
 
 PhysicalObject::PhysicalObject(float cOfElasticity)
@@ -100,27 +100,27 @@ PhysicalObject::PhysicalObject(float cOfElasticity)
     m_coefficientOfElasticity = cOfElasticity;
 }
 
-Rectangle PhysicalObject::getRect() const
+Base::Rectangle PhysicalObject::getRect() const
 {
     return m_rect;
 }
 
-PositionUnit PhysicalObject::left() const
+Base::PositionUnit PhysicalObject::left() const
 {
     return m_rect.p.x; 
 }
 
-PositionUnit PhysicalObject::right() const
+Base::PositionUnit PhysicalObject::right() const
 {
     return m_rect.p.x + m_rect.w;
 }
 
-PositionUnit PhysicalObject::top() const
+Base::PositionUnit PhysicalObject::top() const
 {
     return m_rect.p.y + m_rect.h;
 }
 
-PositionUnit PhysicalObject::bottom() const
+Base::PositionUnit PhysicalObject::bottom() const
 {
     return m_rect.p.y;
 }
@@ -152,16 +152,16 @@ bool PhysicalObject::hasBeenIntersectedWith(const PhysicalObject* object) const
 
 ////////////////////////////////////////////////////////////////
 
-Wall::Wall(float cOfElasticity, Rectangle r) :
-    BaseObject(r),
+Wall::Wall(float cOfElasticity, Base::Rectangle r) :
+    Base::Object(r),
     PhysicalObject(cOfElasticity)
 {}
 
 ////////////////////////////////////////////////////////////////
 
 MovableObject::MovableObject(unsigned mass, float cOfResistance,
-                             float cOfElasticity, Rectangle r) :
-    BaseObject(r),
+                             float cOfElasticity, Base::Rectangle r) :
+    Base::Object(r),
     PhysicalObject(cOfElasticity)
 {
     m_mass = mass;
@@ -178,13 +178,13 @@ Vector MovableObject::getV() const
     return m_velocity;
 }
 
-void MovableObject::move(PositionUnit dx, PositionUnit dy)
+void MovableObject::move(Base::PositionUnit dx, Base::PositionUnit dy)
 {
     m_rect.p.x += dx;
     m_rect.p.y += dy;
 }
 
-void MovableObject::setPosition(Position p)
+void MovableObject::setPosition(Base::Position p)
 {
     m_rect.p = p;
 }

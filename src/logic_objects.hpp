@@ -37,7 +37,7 @@ namespace Flyy
         Vector operator*(float a, Vector b);
 
         class PhysicalObject :
-            virtual public BaseObject
+            virtual public Base::Object
         {
         protected:
             float m_coefficientOfElasticity;
@@ -45,13 +45,13 @@ namespace Flyy
 
         public:
             PhysicalObject(){};
-            PhysicalObject(int w, int h, Position p);
+            PhysicalObject(int w, int h, Base::Position p);
             PhysicalObject(float cOfElasticity);
-            Rectangle getRect() const;
-            PositionUnit left() const;
-            PositionUnit right() const;
-            PositionUnit top() const;
-            PositionUnit bottom() const;
+            Base::Rectangle getRect() const;
+            Base::PositionUnit left() const;
+            Base::PositionUnit right() const;
+            Base::PositionUnit top() const;
+            Base::PositionUnit bottom() const;
             float getCoefficientOfElasticity() const;
             void clearIntersectedObjectList();
             void addIntersectedObject(PhysicalObject* object);
@@ -63,7 +63,7 @@ namespace Flyy
         {
         public:
             Wall(){};
-            Wall(float cOfElasticity, Rectangle r);
+            Wall(float cOfElasticity, Base::Rectangle r);
         };
 
         class MovableObject :
@@ -76,13 +76,13 @@ namespace Flyy
         public:
             MovableObject(){};
             MovableObject(unsigned mass, float cOfResistance,
-                    float cOfElasticity, Rectangle r);
+                    float cOfElasticity, Base::Rectangle r);
             unsigned getMass() const;
             void accelerate(Vector a, float slowdowned);
             Vector getV() const;
             void setV(Vector v);
-            void move(PositionUnit dx, PositionUnit dy);
-            void setPosition(Position p);
+            void move(Base::PositionUnit dx, Base::PositionUnit dy);
+            void setPosition(Base::Position p);
             float getCoefficientOfResistance() const;
             void updatePosition(float slowdowned);
             void backPosition(VectorUnit deltaMagnitude);

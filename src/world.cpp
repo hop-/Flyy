@@ -23,17 +23,17 @@ inline bool areIntersected(const PhysicalObject* o1,
         o1->top() > o2->bottom() && !o1->hasBeenIntersectedWith(o2));
 }
 
-inline PositionUnit getIntersectedX(const PhysicalObject* o1, const PhysicalObject* o2)
+inline Base::PositionUnit getIntersectedX(const PhysicalObject* o1, const PhysicalObject* o2)
 {
-    PositionUnit d1x, d2x;
+    Base::PositionUnit d1x, d2x;
     d1x = o1->right() - o2->right() < 0 ? 0 : o1->right() - o2->right();
     d2x = o1->left() - o2->left() < 0 ? 0 : o1->left() - o2->left();
     return o1->right() - o2->left() - d1x - d2x;
 }
 
-inline PositionUnit getIntersectedY(const PhysicalObject* o1, const PhysicalObject* o2)
+inline Base::PositionUnit getIntersectedY(const PhysicalObject* o1, const PhysicalObject* o2)
 {
-    PositionUnit d1y, d2y;
+    Base::PositionUnit d1y, d2y;
     d1y = o1->top() - o2->top() < 0 ? 0 : o1->top() - o2->top();
     d2y = o1->bottom() - o2->bottom() < 0 ? 0 : o1->bottom() - o2->bottom();
     return o1->top() - o2->bottom() - d1y - d2y;
@@ -41,9 +41,9 @@ inline PositionUnit getIntersectedY(const PhysicalObject* o1, const PhysicalObje
 
 inline bool keepObjectInSurface(MovableObject* o1, const PhysicalObject* o2)
 {
-    PositionUnit stepsBackForX = std::abs(getIntersectedX(o1, o2) /
+    Base::PositionUnit stepsBackForX = std::abs(getIntersectedX(o1, o2) /
                 std::cos(o1->getV().getAngleInRadians()));
-    PositionUnit stepsBackForY = std::abs(getIntersectedY(o1, o2) /
+    Base::PositionUnit stepsBackForY = std::abs(getIntersectedY(o1, o2) /
                 std::sin(o1->getV().getAngleInRadians()));
     if (stepsBackForX < stepsBackForY) {
         o1->backPosition(-stepsBackForX - 1);

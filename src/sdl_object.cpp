@@ -5,7 +5,7 @@
 using namespace Flyy;
 using namespace Flyy::SDL;
 
-inline SDL_Rect toSDLRect(const Rectangle& r)
+inline SDL_Rect toSDLRect(const Base::Rectangle& r)
 {
     SDL_Rect sdlr;
     sdlr.w = r.w / 2 / P_UNIT_TO_METER;

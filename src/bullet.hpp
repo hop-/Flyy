@@ -1,13 +1,15 @@
 #ifndef _BULLET_HPP_
 #define _BULLET_HPP_
 
-#include <string>
+#include <string>           // std::string
+#include "base_object.hpp"  // Flyy::Base::Object
 
 namespace Flyy
 {
     namespace Game
     {
-        class Bullet
+        class Bullet :
+            public Base::Object
         {
             std::string m_text;
             bool m_selected;

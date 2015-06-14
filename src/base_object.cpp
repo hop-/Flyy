@@ -2,6 +2,7 @@
 
 
 using namespace Flyy;
+using namespace Flyy::Base;
 
 ////////////////////////////////////////////////////////////////
 
@@ -34,9 +35,9 @@ Rectangle::Rectangle(PositionUnit width, PositionUnit height,
 
 ////////////////////////////////////////////////////////////////
 
-BaseObject::BaseObject(){}
+Object::Object(){}
 
-BaseObject::BaseObject(Rectangle rect)
+Object::Object(Rectangle rect)
 {
     rect.p.x = rect.p.x * P_UNIT_TO_METER;
     rect.p.y = rect.p.y * P_UNIT_TO_METER;
@@ -45,7 +46,7 @@ BaseObject::BaseObject(Rectangle rect)
     m_rect = rect;
 }
 
-BaseObject::BaseObject(int width, int height,
+Object::Object(int width, int height,
                        Position position = Position())
 {
     m_rect.p.x = position.x * P_UNIT_TO_METER;
@@ -54,7 +55,7 @@ BaseObject::BaseObject(int width, int height,
     m_rect.w = width * P_UNIT_TO_METER;
 }
 
-BaseObject::~BaseObject(){}
+Object::~Object(){}
 
 ////////////////////////////////////////////////////////////////
 

@@ -10,7 +10,7 @@ namespace Flyy
     namespace SDL
     {
         class DrawableObject :
-            virtual public BaseObject
+            virtual public Base::Object
         {
             SDL_Surface* m_surface;
 

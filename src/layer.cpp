@@ -30,11 +30,6 @@ bool Layer::inputIsLocked()
     return m_inputIsLocked;
 }
 
-void Layer::update(const Game::Event* event)
-{
-    
-}
-
 void Layer::lockInput(bool state)
 {
     m_inputIsLocked = state;

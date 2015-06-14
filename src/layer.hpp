@@ -30,7 +30,7 @@ namespace Flyy
             void stop(bool state);
             bool inputIsLocked();
             void lockInput(bool state);
-            virtual void update(const Game::Event* event);
+            virtual void update(const Game::Event* event) = 0;
             virtual void draw() = 0;
             const Game::Control* control() const;
         };
