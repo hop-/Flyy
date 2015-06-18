@@ -1,7 +1,11 @@
-#include "world.hpp"
+#include "world.hpp"    // header
 
 #define _USE_MATH_DEFINES
-#include <cmath>
+#include <cmath>        // std::sin
+                        // std::cos
+                        // M_PI
+
+#include "event.hpp"    // Flyy::Game::Event
 
 #ifdef M_PI
 #define _PI M_PI
@@ -119,6 +123,11 @@ bool World::hasBeenChanged()
 void World::changesHasBeenSeen()
 {
     m_hasBeenChanged = false;
+}
+
+void World::action(Game::Event* event)
+{
+    // TODO
 }
 
 void World::update()

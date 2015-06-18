@@ -9,6 +9,7 @@ namespace Flyy
     namespace Game
     {
         class Bullet;       // declared Flyy::Game::Bullet from bullet.hpp
+        class Event;        // declared Flyy::Game::Event from event.hpp
 
         class Menu :
             public Flyy::Game::Logic
@@ -18,12 +19,13 @@ namespace Flyy
             bool m_cyclic;
 
         public:
+            void action(const Event* event);
             void update();
 
-            void addBullet();
+            void addBullet(Bullet* bullet);
 
             int current();
-            void setCurrent();
+            void setCurrent(int current);
 
             void setCyclic(bool state);
         };

@@ -9,6 +9,11 @@
 
 namespace Flyy
 {
+    namespace Game
+    {
+        class Evnet;    // declared Flyy::Game::Event from event.hpp
+    } // namespace Game
+
     namespace Physics
     {
         class World :
@@ -37,6 +42,7 @@ namespace Flyy
             void accelerate(int index, Vector a);
             bool hasBeenChanged();
             void changesHasBeenSeen();
+            void action(Game::Event* event);
             void update();
             void setCoefficientOfSlowdown(short cOfSlowdown);
             short getCoefficientOfSlowdown();

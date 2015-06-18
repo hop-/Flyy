@@ -17,7 +17,7 @@ void Frame::start()
         previousTicks = currentTicks;
         realLag += deltaTicks;
         unsigned lag = realLag;     // setted to realLag in case,
-                                    // when for loop is empty
+                                    // when 'for' loop is empty
         for (Layer* layer : m_LayerStack) {
             const Game::Event* event = getEvent(layer->control());
             if (layer->isStopped()) {

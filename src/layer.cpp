@@ -1,5 +1,7 @@
 #include "layer.hpp"
 
+#include "logic.hpp"    // Flyy::Game::Logic
+
 using namespace Flyy;
 using namespace Flyy::Gui;
 
@@ -35,7 +37,13 @@ void Layer::lockInput(bool state)
     m_inputIsLocked = state;
 }
 
+void Layer::update(const Game::Event* event)
+{
+    m_logic->action(event);
+    m_logic->update();
+}
+
 const Game::Control* Layer::control() const
 {
-    return m_control;
+    return m_logic->control();
 }
