@@ -3,23 +3,23 @@
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
-        class Event;    // declared Flyy::Game::Event from event.hpp
-        class Control;  // declared Flyy::Game::Control from control.hpp
+        class Event;    // declared Flyy::Base::Event from event.hpp
+        class Control;  // declared Flyy::Base::Control from control.hpp
 
         class Logic
         {
-            Control* m_control;
+            Base::Control* m_control;
 
         public:
             virtual ~Logic() = default;
-            virtual void action(const Event* event) = 0;
+            virtual void action(const Base::Event* event) = 0;
             virtual void update() = 0;
-            void setControl(Control* control);
-            Control* control();
+            void setControl(Base::Control* control);
+            Base::Control* control();
         };
-    } // namespace Game
+    } // namespace Base
 } // namespace Flyy
 
 #endif //_LOGIC_HPP_

@@ -2,7 +2,7 @@
 #define _MENU_HPP_
 
 #include <vector>       // std::vector
-#include "logic.hpp"    // Flyy::Game::Logic
+#include "logic.hpp"    // Flyy::Base::Logic
 
 namespace Flyy
 {
@@ -12,13 +12,14 @@ namespace Flyy
         class Event;        // declared Flyy::Game::Event from event.hpp
 
         class Menu :
-            public Flyy::Game::Logic
+            public Flyy::Base::Logic
         {
             std::vector<Bullet*> m_bullets;
             int m_current;
             bool m_cyclic;
 
         public:
+            Menu();
             void action(const Event* event);
             void update();
 
@@ -28,6 +29,9 @@ namespace Flyy
             void setCurrent(int current);
 
             void setCyclic(bool state);
+
+        private:
+            void init();
         };
     } // namespace Game
 } // namespace Flyy

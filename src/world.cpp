@@ -5,7 +5,7 @@
                         // std::cos
                         // M_PI
 
-#include "event.hpp"    // Flyy::Game::Event
+#include "event.hpp"    // Flyy::Base::Event
 
 #ifdef M_PI
 #define _PI M_PI
@@ -125,7 +125,7 @@ void World::changesHasBeenSeen()
     m_hasBeenChanged = false;
 }
 
-void World::action(Game::Event* event)
+void World::action(Base::Event* event)
 {
     // TODO
 }

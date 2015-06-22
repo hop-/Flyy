@@ -1,14 +1,14 @@
 #include "logic.hpp"
 
 using namespace Flyy;
-using namespace Flyy::Game;
+using namespace Flyy::Base;
 
-void Logic::setControl(Control* control)
+void Logic::setControl(Base::Control* control)
 {
     m_control= control;
 }
 
-Control* Logic::control()
+Base::Control* Logic::control()
 {
     return m_control;
 }

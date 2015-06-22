@@ -3,7 +3,7 @@
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
         class ID
         {

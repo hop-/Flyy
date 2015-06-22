@@ -19,9 +19,9 @@ namespace Flyy
             Bullet(std::string text);
             virtual ~Bullet() = default;
 
-            // virtual void enter() = 0;
-            // virtual void left() = 0;
-            // virtual void right() = 0;
+            virtual void enter();
+            virtual void right();
+            virtual void left();
 
             virtual std::string text();
             void setText(std::string text);

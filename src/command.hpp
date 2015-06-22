@@ -5,7 +5,7 @@
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
         class Command
         {
@@ -13,7 +13,7 @@ namespace Flyy
             virtual ~Command() {};
             virtual void  exec(Base::Object* object) = 0;
         };
-    } // namespace Game
+    } // namespace Base
 } // namespace Flyy
 
 #endif //_BASE_COMMAND_HPP_

@@ -2,11 +2,11 @@
 #define _CONTROL_HPP_
 
 #include <map>          // std::map
-#include "event.hpp"    // Flyy::Game::Event
+#include "event.hpp"    // Flyy::Event
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
 
         using KeyInput = int;
@@ -23,7 +23,7 @@ namespace Flyy
             std::map<KeyInput, Event*> get() const;
             void set(std::map<KeyInput, Event*> controls);
         };
-    } // namespace Game
+    } // namespace Base
 } // namespace Flyy
 
 #endif //_CONTROL_HPP_

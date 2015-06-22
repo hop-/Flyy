@@ -3,12 +3,12 @@
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
-        class Event;    // declared Flyy::Game::Event from event.hpp
-        class Control;  // declared Flyy::Game::Control from control.hpp
-        class Logic;    // declared Flyy::Game::Logic from logic.hpp
-    } // namespace Game
+        class Event;    // declared Flyy::Base::Event from event.hpp
+        class Control;  // declared Flyy::Base::Control from control.hpp
+        class Logic;    // declared Flyy::Base::Logic from logic.hpp
+    } // namespace Base
 
     namespace Gui
     {
@@ -18,7 +18,7 @@ namespace Flyy
         {
             static Frame* m_parent;
 
-            Game::Logic* m_logic;
+            Base::Logic* m_logic;
             
             bool m_stopped{false};
             bool m_inputIsLocked{false};
@@ -31,9 +31,9 @@ namespace Flyy
             void stop(bool state);
             bool inputIsLocked();
             void lockInput(bool state);
-            void update(const Game::Event* event);
+            void update(const Base::Event* event);
             virtual void draw() = 0;
-            const Game::Control* control() const;
+            const Base::Control* control() const;
         };
     } // namespace Gui
 } // namespace Flyy

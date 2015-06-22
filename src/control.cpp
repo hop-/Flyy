@@ -1,7 +1,7 @@
 #include "control.hpp"
 
 using namespace Flyy;
-using namespace Flyy::Game;
+using namespace Flyy::Base;
 
 Control::Control(std::map<KeyInput, Event*> controls) :
     m_controls{controls}
@@ -15,7 +15,7 @@ const Event* Control::event(KeyInput i, bool press) const
 
 bool Control::add(KeyInput i, Event* e)
 {
-    //TODO
+    // TODO
     return true;
 }
 

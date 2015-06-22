@@ -7,6 +7,15 @@ Bullet::Bullet(std::string text) :
     m_text{text}
 {}
 
+void Bullet::enter()
+{}
+
+void Bullet::right()
+{}
+
+void Bullet::left()
+{}
+
 std::string Bullet::text()
 {
     return m_text;

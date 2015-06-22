@@ -6,11 +6,11 @@
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
-        class Event;    // declared Flyy::Game::Event from event.hpp
-        class Control;  // declared Flyy::Game::Control from control.hpp
-    } // namespace Game
+        class Event;    // declared Flyy::Base::Event from event.hpp
+        class Control;  // declared Flyy::Base::Control from control.hpp
+    } // namespace Base
 
     namespace Gui
     {
@@ -36,8 +36,8 @@ namespace Flyy
 
         private:
             virtual void draw() = 0;
-            virtual const Game::Event*
-                getEvent(const Game::Control* control) = 0;
+            virtual const Base::Event*
+                getEvent(const Base::Control* control) = 0;
             virtual unsigned getTicks() = 0;
         };
     } // namespace Gui 

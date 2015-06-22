@@ -2,22 +2,22 @@
 #define _WORLD_HPP_
 
 #include <vector>               // std::vector
-#include "logic.hpp"            // Flyy::Game::Logic
+#include "logic.hpp"            // Flyy::Base::Logic
 
 #include "logic_objects.hpp"    // Flyy::Physics::Wall
                                 // Flyy::Physics::MovableObject
 
 namespace Flyy
 {
-    namespace Game
+    namespace Base
     {
-        class Evnet;    // declared Flyy::Game::Event from event.hpp
+        class Evnet;    // declared Flyy::Base::Event from event.hpp
     } // namespace Game
 
     namespace Physics
     {
         class World :
-            public Flyy::Game::Logic
+            public Flyy::Base::Logic
         {
             std::vector<Wall*> m_walls;
             std::vector<MovableObject*> m_movables;
@@ -42,7 +42,7 @@ namespace Flyy
             void accelerate(int index, Vector a);
             bool hasBeenChanged();
             void changesHasBeenSeen();
-            void action(Game::Event* event);
+            void action(Base::Event* event);
             void update();
             void setCoefficientOfSlowdown(short cOfSlowdown);
             short getCoefficientOfSlowdown();

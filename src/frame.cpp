@@ -1,6 +1,6 @@
 #include "frame.hpp"    // header
 #include "layer.hpp"    // Flyy::Gui::Layer
-#include "event.hpp"    // Flyy::Game::Event
+#include "event.hpp"    // Flyy::Base::Event
 
 using namespace Flyy;
 using namespace Flyy::Gui;
@@ -19,7 +19,7 @@ void Frame::start()
         unsigned lag = realLag;     // setted to realLag in case,
                                     // when 'for' loop is empty
         for (Layer* layer : m_LayerStack) {
-            const Game::Event* event = getEvent(layer->control());
+            const Base::Event* event = getEvent(layer->control());
             if (layer->isStopped()) {
                 continue;
             }

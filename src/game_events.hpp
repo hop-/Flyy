@@ -9,7 +9,7 @@ namespace Flyy
     namespace Game
     {
         class EventQuit :
-            public EventCreator<EventQuit>
+            public Base::EventCreator<EventQuit>
         {};
     } // namespace Game
 } // namespace Flyy

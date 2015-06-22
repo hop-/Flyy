@@ -16,6 +16,10 @@ namespace Flyy
             BulletBool();
             BulletBool(std::string text);
 
+            void enter();
+            void right();
+            void left();
+
             std::string text();
         private:
             void getState();
@@ -33,10 +37,23 @@ namespace Flyy
             BulletInt();
             BulletInt(std::string text);
 
+            void right();
+            void left();
+
             std::string text();
             void setRange(int lower, int upper);
         private:
             void getValue();
+        };
+
+        class BulletExec :
+            public Bullet
+        {
+        public:
+            BulletExec();
+            BulletExec(std::string text);
+
+            void enter();
         };
     } // namespace Game
 } // namespace Flyy

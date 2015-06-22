@@ -5,19 +5,23 @@
 using namespace Flyy;
 using namespace Flyy::Game;
 
+
+Menu::Menu()
+{
+    init();
+}
+
 void Menu::action(const Event* event)
 {
     // TODO
 }
 
 void Menu::update()
-{
-    // TODO
-}
+{}
 
 void Menu::addBullet(Bullet* bullet)
 {
-    // TODO
+    m_bullets.push_back(bullet);
 }
 
 int Menu::current()
@@ -33,4 +37,9 @@ void Menu::setCurrent(int current)
 void Menu::setCyclic(bool state)
 {
     m_cyclic = state;
+}
+
+void Menu::init()
+{
+    // TODO
 }

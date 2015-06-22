@@ -15,6 +15,21 @@ BulletBool::BulletBool(std::string text) :
     getState();
 }
 
+void BulletBool::enter()
+{
+    m_state = !m_state;
+}
+
+void BulletBool::right()
+{
+    m_state = true;
+}
+
+void BulletBool::left()
+{
+    m_state = false;
+}
+
 std::string BulletBool::text()
 {
     if (m_state) {
@@ -38,9 +53,23 @@ BulletInt::BulletInt() :
 }
 
 BulletInt::BulletInt(std::string text) :
-    Bullet()
+    Bullet(text)
 {
     getValue();
+}
+
+void BulletInt::right()
+{
+    if (++m_value > m_upperRange) {
+        m_value = m_upperRange;
+    }
+}
+
+void BulletInt::left()
+{
+    if (--m_value < m_lowerRange) {
+        m_value = m_lowerRange;
+    }
 }
 
 std::string BulletInt::text()
@@ -49,6 +78,21 @@ std::string BulletInt::text()
 }
 
 void BulletInt::getValue()
+{
+    // TODO
+}
+
+////////////////////////////////////////////////////////////
+
+BulletExec::BulletExec() :
+    Bullet()
+{}
+
+BulletExec::BulletExec(std::string text) :
+    Bullet(text)
+{}
+
+void BulletExec::enter()
 {
     // TODO
 }
