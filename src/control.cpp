@@ -13,10 +13,9 @@ const Event* Control::event(KeyInput i, bool press) const
     return m_controls.at(i);
 }
 
-bool Control::add(KeyInput i, Event* e)
+void Control::add(KeyInput i, Event* e)
 {
-    // TODO
-    return true;
+    m_controls.insert(std::pair<KeyInput, Event*>(i, e));
 }
 
 std::map<KeyInput, Event*> Control::get() const

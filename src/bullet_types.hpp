@@ -1,7 +1,7 @@
 #ifndef _BULLET_TYPES_HPP_
 #define _BULLET_TYPES_HPP_
 
-#include "bullet.hpp"
+#include "bullet.hpp"   // Flyy::Game::Bullet
 
 namespace Flyy
 {

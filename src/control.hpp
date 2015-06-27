@@ -19,7 +19,7 @@ namespace Flyy
             Control() = default;
             Control(std::map<KeyInput, Event*> controls);
             const Event* event(KeyInput i, bool press) const;
-            bool add(KeyInput i, Event* e);
+            void add(KeyInput i, Event* e);
             std::map<KeyInput, Event*> get() const;
             void set(std::map<KeyInput, Event*> controls);
         };
